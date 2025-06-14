@@ -64,12 +64,11 @@ const RouteNotes = () => {
         ))}
       </div>
       <p className="text-gray-700 text-sm leading-relaxed">
-  This is based on real courier work. Routes usually follow scanner order, but that doesn’t always make sense on the road. Pickups might get added in the middle of a run, bulk stops can slow things down, and business deliveries might get buried even if they need to be done early.
-</p>
-
-<p className="text-gray-700 text-sm leading-relaxed mt-2">
-  Using color helps make that stuff clearer at a glance. Instead of reading every stop, you can quickly spot what’s what and plan ahead. It’s not perfect, but it gives the driver a little more control over how they move through the day.
-</p>
+        This is based on real courier work. Routes usually follow scanner order, but that doesn’t always make sense on the road. Pickups might get added in the middle of a run, bulk stops can slow things down, and business deliveries might get buried even if they need to be done early.
+      </p>
+      <p className="text-gray-700 text-sm leading-relaxed mt-2">
+        Using color helps make that stuff clearer at a glance. Instead of reading every stop, you can quickly spot what’s what and plan ahead. It’s not perfect, but it gives the driver a little more control over how they move through the day.
+      </p>
     </div>
   );
 };
@@ -149,11 +148,11 @@ const MapCanvas = () => {
         </p>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
           <div>
-          <img
-  src="/Default.png"
-  alt="Default pickups"
-  className="rounded border shadow-sm w-full max-w-md mx-auto"
-/>
+            <img
+              src="/Default.png"
+              alt="Default pickups"
+              className="rounded border shadow-sm w-full max-w-md mx-auto"
+            />
             <p className="text-xs text-gray-600 mt-1 text-center">
               Red = pickups (standard scanner logic)
             </p>
@@ -175,10 +174,10 @@ const MapCanvas = () => {
         <h3 className="font-semibold mb-2 text-base text-gray-800">How to Use</h3>
         <ul className="list-disc pl-5 space-y-1">
           <li>
-            Click <span className="font-medium text-gray-900">"Drop Start Point"</span> and then click anywhere on the map to simulate your starting location.
+            Click <span className="font-medium text-gray-900">"Set Start Point"</span> and then click anywhere on the map to simulate your starting location.
           </li>
           <li>
-            Press <span className="font-medium text-gray-900">"Sort Stops by Proximity"</span> to reorder based on distance from your starting point.
+            Press <span className="font-medium text-gray-900">"Sort by Distance"</span> to reorder based on distance from your starting point.
           </li>
           <li>
             Select <span className="font-medium text-gray-900">"Color Code Stops"</span> to highlight call-ins, bulk deliveries, and other categories for visual clarity.
@@ -189,13 +188,14 @@ const MapCanvas = () => {
         </ul>
       </div>
 
+      <p className="text-sm font-medium text-gray-700 mb-2 text-center">Interactive Demo</p>
       <div className="bg-white p-4 rounded-xl shadow-md border mb-6">
         <div className="flex flex-wrap gap-2 justify-center mb-4">
           <button onClick={() => setDropMode(true)} className="px-3 py-1 rounded shadow text-sm font-medium transition hover:opacity-90 bg-blue-600 text-white">
-            Drop Start Point
+            Set Start Point
           </button>
           <button onClick={sortStops} className="px-3 py-1 rounded shadow text-sm font-medium transition hover:opacity-90 bg-white text-gray-800 border border-gray-300">
-            Sort Stops by Proximity
+            Sort by Distance
           </button>
           <button onClick={regenerate} className="px-3 py-1 rounded shadow text-sm font-medium transition hover:opacity-90 bg-white text-gray-800 border border-gray-300">
             Regenerate Stops
@@ -211,7 +211,7 @@ const MapCanvas = () => {
             {colors.map((c) => (
               <button
                 key={c}
-                className={`w-5 h-5 rounded-full border-2 ${
+                className={`w-5 h-5 rounded-full border-2 transition-transform hover:scale-110 ${
                   activeColor === c ? "border-black" : "border-transparent"
                 }`}
                 style={{ backgroundColor: c }}
@@ -245,7 +245,7 @@ const MapCanvas = () => {
                 })}
                 eventHandlers={{ click: () => selectMode && toggleSelect(stop.id) }}
               >
-                <Popup>{stop.name}</Popup>
+                <Popup>{stop.label ? `Stop ${stop.label}` : stop.name}</Popup>
               </Marker>
             ))}
           </MapContainer>
@@ -253,6 +253,9 @@ const MapCanvas = () => {
       </div>
 
       <RouteNotes />
+
+      {/* Divider added before footer */}
+      <hr className="mt-8 border-gray-200" />
 
       <footer className="text-center text-gray-400 text-xs py-6">
         Built for feedback.
